@@ -29,11 +29,11 @@ class SimpleFaceRecognitionNode:
         known_faces_path = '/home/jetbot/EVC/workshops/FINALPROJECT/src/jetson_camera/config/known_faces_1.pkl'
         self.known_encodings, self.known_names = self.load_cached_faces(known_faces_path)
         if not self.known_encodings:
-            rospy.logerr("❌ No known faces loaded. Face recognition disabled.")
+            rospy.logerr("No known faces loaded. Face recognition disabled.")
             self.face_recognition_enabled = False
         else:
             self.face_recognition_enabled = True
-            rospy.loginfo("✅ Loaded %d known faces: %s", len(self.known_names), self.known_names)
+            rospy.loginfo("Loaded %d known faces: %s", len(self.known_names), self.known_names)
 
         # Publishers
         self.face_pub = rospy.Publisher('/face_detection', Int32, queue_size=1)
@@ -66,7 +66,7 @@ class SimpleFaceRecognitionNode:
     def load_cached_faces(self, cache_file):
         """Load known face encodings from pickle file"""
         if not os.path.exists(cache_file):
-            rospy.logwarn("❌ No known_faces.pkl found at %s", cache_file)
+            rospy.logwarn("No known_faces.pkl found at %s", cache_file)
             return [], []
         
         try:
@@ -112,16 +112,16 @@ class SimpleFaceRecognitionNode:
                 # Map names to IDs
                 if "Obama" in recognized_name:
                     face_id = 1
-                    rospy.loginfo("✅ Recognized Obama (confidence: %.3f)", 1.0 - distances[best_index])
+                    rospy.loginfo("Recognized Obama (confidence: %.3f)", 1.0 - distances[best_index])
                 elif "Trump" in recognized_name:
                     face_id = 2
-                    rospy.loginfo("✅ Recognized Trump (confidence: %.3f)", 1.0 - distances[best_index])
+                    rospy.loginfo("Recognized Trump (confidence: %.3f)", 1.0 - distances[best_index])
                 else:
                     face_id = 0
-                    rospy.loginfo("❓ Recognized %s but not Obama/Trump", recognized_name)
+                    rospy.loginfo("Recognized %s but not Obama/Trump", recognized_name)
             else:
                 face_id = 0
-                rospy.loginfo("❌ Unknown face (best match: %s, distance: %.3f)", 
+                rospy.loginfo("Unknown face (best match: %s, distance: %.3f)", 
                             self.known_names[best_index], distances[best_index])
 
             self.last_recognized_id = face_id

@@ -84,7 +84,7 @@ class TaskManager:
         
         # Execute the selected task (only Obama or valid barcodes)
         if task_to_execute:
-            rospy.loginfo("🚀 EXECUTING TASK %d - %s", task_to_execute, reason)
+            rospy.loginfo("EXECUTING TASK %d - %s", task_to_execute, reason)
             self.task_pub.publish(Int32(data=task_to_execute))
             self.state = RobotState.TASK_SENT
             self.task_executed = True  # Mark task as executed
@@ -115,7 +115,7 @@ class TaskManager:
             if msg.perfect == 1:
                 self.state = RobotState.PARKED
                 self.task_executed = False  # Reset task execution flag when newly parked
-                rospy.loginfo("🅿️ PARKED - Ready for detection")
+                rospy.loginfo("PARKED - Ready for detection")
                 # Cancel any existing timer since we now execute immediately
                 if self.parked_timer is not None:
                     self.parked_timer.shutdown()
@@ -137,7 +137,7 @@ class TaskManager:
 
     def return_to_parking(self, event):
         """Called after 8 seconds to return to parking mode for continuous cycle"""
-        rospy.loginfo("🔄 Task complete - returning to parking")
+        rospy.loginfo("Task complete - returning to parking")
         self.state = RobotState.PARKING
         self.task_executed = False  # Reset task execution flag for next cycle
         # Clear any pending detections to start fresh
@@ -147,7 +147,7 @@ class TaskManager:
     def make_decision(self, event):
         """Called after a delay to make task decision"""
         if self.state == RobotState.PARKED:
-            rospy.loginfo("⏰ 5-second timer expired - making decision now!")
+            rospy.loginfo("5-second timer expired - making decision now!")
             rospy.loginfo("Current detections - Face: %s, Barcode: %s", 
                          self.pending_face_detection, self.pending_barcode_number)
             self.select_and_execute_task()
@@ -168,28 +168,28 @@ class TaskManager:
             # Only Obama triggers immediate execution
             if face_id == 1:
                 self.pending_face_detection = "Obama"
-                rospy.loginfo("👤 Obama detected - EXECUTING")
+                rospy.loginfo("Obama detected - EXECUTING")
                 self.select_and_execute_task()
             elif face_id == 2:
                 self.pending_face_detection = "Trump"  
-                rospy.loginfo("👤 Known face (not Obama) detected - LOGGING ONLY")
+                rospy.loginfo("Known face (not Obama) detected - LOGGING ONLY")
                 self.select_and_execute_task()  # This will log but not execute
             else:
                 self.pending_face_detection = "Unknown"
-                rospy.loginfo("👤 Unknown face detected - LOGGING ONLY")
+                rospy.loginfo("Unknown face detected - LOGGING ONLY")
                 self.select_and_execute_task()  # This will log but not execute
                 
         elif self.state == RobotState.PARKING:
             # Store face detection for when we're parked
             if face_id == 1:
                 self.pending_face_detection = "Obama"
-                rospy.loginfo("👤 Obama detected while moving")
+                rospy.loginfo("Obama detected while moving")
             elif face_id == 2:
                 self.pending_face_detection = "Trump"
-                rospy.loginfo("👤 Known face detected while moving")
+                rospy.loginfo("Known face detected while moving")
             else:
                 self.pending_face_detection = "Unknown"
-                rospy.loginfo("👤 Unknown face detected while moving")
+                rospy.loginfo("Unknown face detected while moving")
 
     def barcode_callback(self, msg):
         """Handle barcode number detection - immediate execution when parked"""
@@ -208,14 +208,14 @@ class TaskManager:
                 # Execute immediately when we detect barcode while parked
                 self.pending_barcode_number = barcode_number
                 last_digit = barcode_number % 10
-                rospy.loginfo("🏷️ Barcode %d (ends with %d) - EXECUTING", barcode_number, last_digit)
+                rospy.loginfo("Barcode %d (ends with %d) - EXECUTING", barcode_number, last_digit)
                 self.select_and_execute_task()
                     
             elif self.state == RobotState.PARKING:
                 # Store barcode for when we're parked
                 self.pending_barcode_number = barcode_number
                 last_digit = barcode_number % 10
-                rospy.loginfo("🏷️ Barcode %d (ends with %d) detected while moving", barcode_number, last_digit)
+                rospy.loginfo("Barcode %d (ends with %d) detected while moving", barcode_number, last_digit)
                 
         except Exception as e:
             rospy.logerr("Error in barcode callback: %s", str(e))
