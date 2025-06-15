@@ -1,6 +1,0 @@
-<launch>
-  <include file="$(find jetson_camera)/launch/camera_publisher.launch" />
-  <include file="$(find jetson_camera)/launch/face_parking.launch" />
-  <include file="$(find jetson_camera)/launch/motor_controller.launch" />
-  <include file="$(find jetson_camera)/launch/pose_estimation.launch" />
-</launch>
