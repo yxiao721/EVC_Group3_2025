@@ -1,0 +1,24 @@
+<launch>
+  <!-- 1. Publisher -->
+  <include file="$(find jetson_camera)/launch/camera_publisher.launch" />
+
+  <!-- 5. TaskManager-->
+  <node pkg="jetson_camera"
+      type="taskManager.py"
+      name="taskManager"
+      output="screen"
+      cwd="node">
+  </node>
+
+
+  <!-- 4. Motor -->
+  <include file="$(find jetson_camera)/launch/motor_controller.launch" />
+
+  <include file="$(find jetson_camera)/launch/qr_navigation.launch" />
+
+  <!-- 5. face rec-->
+  <include file="$(find jetson_camera)/launch/face_parking.launch" />
+
+  <!-- 5. routing-->
+  <include file="$(find jetson_camera)/launch/routing.launch" />
+</launch>

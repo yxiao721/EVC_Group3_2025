@@ -1,0 +1,8 @@
+<launch>
+    <node pkg="jetson_camera"
+      type="taskManager.py"
+      name="taskManager"
+      output="screen"
+      cwd="node">
+    </node>
+</launch>

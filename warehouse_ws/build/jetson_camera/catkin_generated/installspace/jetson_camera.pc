@@ -1,0 +1,8 @@
+prefix=/home/jetbot/EVC/workshops/FINALPROJECT/install
+
+Name: jetson_camera
+Description: Description of jetson_camera
+Version: 0.1.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime cv_bridge rospy sensor_msgs std_msgs

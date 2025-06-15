@@ -1,0 +1,5 @@
+motor:   
+  gain_L: 1.0   
+  gain_R: 1.0   
+  s_cm: 0.05    # Seconds per cm   
+  s_deg: 0.1   # Seconds per degree 

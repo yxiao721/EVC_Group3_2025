@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="jetson_camera"
+      type="face_parking.py"
+      name="face_parking"
+      output="screen"
+      cwd="node">
+    <rosparam command="load" file="$(find jetson_camera)/config/parameters.yaml" />
+    </node>
+</launch>

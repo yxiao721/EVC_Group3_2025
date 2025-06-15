@@ -1,0 +1,8 @@
+<launch>
+    <rosparam file="$(find jetson_camera)/config/motor_params.yaml" command="load" />
+    <node name="encoder_controller"
+          pkg="jetson_camera"
+          type="encoder_controller.py"
+          output="screen"
+          respawn="false" />
+</launch>

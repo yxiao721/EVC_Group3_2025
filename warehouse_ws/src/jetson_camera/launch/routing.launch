@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="jetson_camera" type="routing.py" name="routing" output="screen"/>
+</launch>
